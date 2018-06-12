@@ -6,6 +6,13 @@ import { connect } from "react-redux";
 import * as actions from "../actions";
 
 class ListItem extends Component {
+  renderDescription() {
+    const { data, expanded } = this.props;
+    if (expanded) {
+      return <Text>{data.description}</Text>;
+    }
+  }
+
   render() {
     const { title, id } = this.props.data;
     return (
@@ -14,6 +21,7 @@ class ListItem extends Component {
           <CardSection>
             <Text style={styles.title}>{title}</Text>
           </CardSection>
+          {this.renderDescription()}
         </View>
       </TouchableWithoutFeedback>
     );
@@ -27,7 +35,14 @@ const styles = {
   }
 };
 
+const mapStateToProps = (state, ownProps) => {
+  const expanded = state.selectedLibraryId === ownProps.data.id;
+  return {
+    expanded
+  };
+};
+
 export default connect(
-  null,
+  mapStateToProps,
   actions
 )(ListItem);
