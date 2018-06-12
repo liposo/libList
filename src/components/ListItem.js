@@ -8,7 +8,6 @@ import * as actions from "../actions";
 class ListItem extends Component {
   render() {
     const { title, id } = this.props.data;
-
     return (
       <TouchableWithoutFeedback onPress={() => this.props.selectLibrary(id)}>
         <View>
