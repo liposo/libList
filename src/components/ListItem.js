@@ -1,15 +1,35 @@
 import React, { Component } from "react";
-import { Text, TouchableWithoutFeedback, View } from "react-native";
+import {
+  Text,
+  TouchableWithoutFeedback,
+  View,
+  LayoutAnimation,
+  Platform,
+  UIManager
+} from "react-native";
 import { CardSection } from "./common";
 
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
 class ListItem extends Component {
+  componentWillMount() {
+    if (Platform.OS === "android") {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
+  componentWillUpdate() {
+    LayoutAnimation.spring();
+  }
+
   renderDescription() {
     const { data, expanded } = this.props;
     if (expanded) {
-      return <Text>{data.description}</Text>;
+      return (
+        <CardSection>
+          <Text style={styles.description}>{data.description}</Text>
+        </CardSection>
+      );
     }
   }
 
@@ -30,8 +50,13 @@ class ListItem extends Component {
 
 const styles = {
   title: {
+    paddingLeft: 18,
     fontSize: 20,
     fontWeight: "bold"
+  },
+  description: {
+    flex: 1,
+    paddingHorizontal: 18
   }
 };
 
